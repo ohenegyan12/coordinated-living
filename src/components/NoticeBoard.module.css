@@ -1,0 +1,23 @@
+.boardContainer {
+  pointer-events: none;
+  position: relative;
+  width: 939px;
+  height: 493px;
+  margin: 0 auto;
+}
+
+.paper {
+  pointer-events: auto;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.paper:hover {
+  box-shadow: 0 0 24px 6px rgba(60, 180, 255, 0.5), 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 10;
+  transform: scale(1.04) rotate(-1deg);
+}
+
+.boardBg {
+  box-shadow: 0 0 32px 8px rgba(60, 180, 255, 0.25), 0 2px 16px rgba(0,0,0,0.10);
+  pointer-events: none;
+  border-radius: 12px;
+} 
