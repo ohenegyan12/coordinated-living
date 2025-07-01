@@ -47,8 +47,8 @@ const ReadNoticePage = () => {
             <div className="w-1/2 p-16 bg-[#F3EFEA] rounded-lg shadow-2xl text-center mx-8 relative">
               <div className="absolute top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-gray-800 rounded-full"></div>
               <p className="text-3xl leading-loose text-gray-800 font-serif">
-                I welcome you to this space, a place where we seek 'the coordinated
-                living' – aligning our lives with God's Word and His purpose. Our
+                I welcome you to this space, a place where we seek &apos;the coordinated
+                living&apos; – aligning our lives with God&apos;s Word and His purpose. Our
                 goal is to be the sheep of His pasture, finding guidance,
                 nourishment, and belonging within His fold.
               </p>

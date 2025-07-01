@@ -2,7 +2,6 @@
 import { useRef, useLayoutEffect, useState, useEffect } from 'react';
 import Image from "next/image";
 import { gsap } from 'gsap';
-import { useRouter } from 'next/navigation';
 
 const Loader = () => {
   const logoRef = useRef(null);

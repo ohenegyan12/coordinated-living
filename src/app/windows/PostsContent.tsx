@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DndContext, useDraggable } from '@dnd-kit/core';
+import { DndContext, useDraggable, DragEndEvent } from '@dnd-kit/core';
 
 interface Post {
   id: number;
@@ -44,9 +44,9 @@ const PostsContent = () => {
   
   const [posts, setPosts] = useState(initialPosts);
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const {active, delta} = event;
-    const id = parseInt(active.id.split('-')[1]);
+    const id = parseInt(String(active.id).split('-')[1]);
     
     setPosts(posts => posts.map(post => {
       if (post.id === id) {
@@ -65,7 +65,7 @@ const PostsContent = () => {
             <h1 className="text-3xl font-bold text-gray-800 mb-2">POSTS</h1>
             <p className="text-sm text-gray-500 leading-relaxed">
               Navigate the changing scenes of life with faith through our brief, insightful
-              reflections and biblical insights. We aim to help you recognize God's abundant grace
+              reflections and biblical insights. We aim to help you recognize God&apos;s abundant grace
               in your everyday moments, offering encouragement and a new perspective through
               His Word.
             </p>

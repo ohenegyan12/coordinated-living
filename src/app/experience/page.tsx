@@ -205,7 +205,7 @@ const ExperiencePage = () => {
       {/* Envelope on the table */}
       <div
         ref={envelopeRef}
-        className="absolute bottom-12 left-[1200px] z-10 cursor-pointer envelope-container"
+        className="absolute bottom-16 left-[300px] z-10 cursor-pointer envelope-container"
         onClick={handleEnvelopeClick}
       >
         <Image
@@ -213,7 +213,7 @@ const ExperiencePage = () => {
           width={180}
           height={120}
           alt="Envelope"
-          className="drop-shadow-lg"
+          className="drop-shadow-lg envelope-glow"
         />
       </div>
 
@@ -257,7 +257,7 @@ const ExperiencePage = () => {
                 Deep Dive & Exclusive Teachings
               </h1>
               <p className="mt-6 text-lg text-white/80">
-                Are you longing for an in-depth exploration of God's Word and its application to the complexities of life? Our videos, delivered through an exclusive paid WhatsApp channel, provide detailed teaching and deeper insights. Join our community to journey further into understanding how His grace abounds even in the most profound changing scenes of life and cultivate an intimate relationship with the Lord
+                Are you longing for an in-depth exploration of God&apos;s Word and its application to the complexities of life? Our videos, delivered through an exclusive paid WhatsApp channel, provide detailed teaching and deeper insights. Join our community to journey further into understanding how His grace abounds even in the most profound changing scenes of life and cultivate an intimate relationship with the Lord
               </p>
               <button className="mt-8 cursor-pointer">
                 <Image 
@@ -334,16 +334,11 @@ const ExperiencePage = () => {
         }
 
         .envelope-container {
-          animation: bounce 2s ease-in-out infinite;
+          /* Removed bounce animation */
         }
-
-        @keyframes bounce {
-          0%, 100% {
-            transform: translate(0, 0);
-          }
-          50% {
-            transform: translate(0, -8px);
-          }
+        .envelope-glow {
+          filter: drop-shadow(0 0 24px rgba(60,180,255,0.5)) drop-shadow(0 2px 8px rgba(0,0,0,0.15));
+          transition: filter 0.2s;
         }
 
         .phone-container {

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import styles from './NoticeBoard.module.css';
 
 const papers = [
@@ -88,11 +89,13 @@ const NoticeBoard: React.FC = () => {
         }}
         aria-hidden="true"
       />
-      {papers.map((paper, idx) => (
-        <img
+      {papers.map((paper) => (
+        <Image
           key={paper.src}
           src={paper.src}
           alt={paper.label}
+          width={paper.style.width}
+          height={paper.style.height}
           className={styles.paper}
           style={{
             position: 'absolute',
