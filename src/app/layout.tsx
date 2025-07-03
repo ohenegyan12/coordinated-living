@@ -16,6 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preload" href="/new.png" as="image" type="image/png" />
+      </head>
       <body className={manrope.className}>{children}</body>
     </html>
   );

@@ -2,6 +2,7 @@
 import { useRef, useLayoutEffect, useState, useEffect } from 'react';
 import Image from "next/image";
 import { gsap } from 'gsap';
+import { useRouter } from 'next/navigation';
 
 const Loader = () => {
   const logoRef = useRef(null);
@@ -115,12 +116,13 @@ const Page = () => {
   // Commented out video state for demo
   // const [isVideoEnded, setIsVideoEnded] = useState(false);
   const pageRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
   // const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoaded(true);
-    }, 4000);
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -130,31 +132,31 @@ const Page = () => {
 
     tl.to('.welcome-button', {
       scale: 1.1,
-      duration: 0.4,
+      duration: 0.2,
       ease: 'power2.out'
     })
     .to('.welcome-button', {
       scale: 0,
       opacity: 0,
-      duration: 0.6,
+      duration: 0.3,
       ease: 'power2.in'
     })
     .to('.welcome-text', {
       y: 50,
       opacity: 0,
-      duration: 1.2,
+      duration: 0.6,
       ease: 'power3.inOut'
-    }, "-=0.8")
+    }, "-=0.4")
     .to('.welcome-logo', {
       opacity: 0,
-      duration: 1.2,
+      duration: 0.6,
       ease: 'power3.inOut'
     }, "<")
     .to('.gradient-background', {
       opacity: 0,
-      duration: 2,
+      duration: 0.8,
       ease: 'power2.inOut'
-    }, "-=0.5")
+    }, "-=0.3")
     // Commented out video transition for demo
     // .to('.video-animation-container', {
     //   opacity: 1,
@@ -182,8 +184,8 @@ const Page = () => {
     // Go straight to experience page
     .add(() => {
         setTimeout(() => {
-        window.location.href = '/experience';
-      }, 500);
+        router.push('/experience');
+      }, 200);
     });
   };
 

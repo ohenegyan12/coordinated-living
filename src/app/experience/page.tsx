@@ -1,7 +1,25 @@
 "use client";
 import Image from "next/image";
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
 
 const ExperiencePage = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Smooth fade-in effect when page loads
+  useEffect(() => {
+    if (containerRef.current) {
+      gsap.fromTo(containerRef.current, 
+        { opacity: 0 },
+        { 
+          opacity: 1, 
+          duration: 0.8, 
+          ease: 'power2.inOut' 
+        }
+      );
+    }
+  }, []);
+
   // Commented out for demo - using simple image instead
   /*
   const pcRef = useRef<HTMLDivElement>(null);
@@ -130,13 +148,22 @@ const ExperiencePage = () => {
   */
 
   return (
-    <div className="fixed inset-0 w-screen h-screen bg-black">
+    <div 
+      ref={containerRef}
+      className="fixed inset-0 w-screen h-screen bg-black opacity-0"
+    >
       <Image
-        src="/mok.png"
-        layout="fill"
-        objectFit="cover"
+        src="/new.png"
+        fill
+        sizes="100vw"
         alt="Experience Background"
         priority
+        quality={85}
+        placeholder="blur"
+        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXXGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+        style={{ 
+          objectFit: 'cover'
+        }}
       />
     </div>
   );
