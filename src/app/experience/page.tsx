@@ -1,8 +1,5 @@
 "use client";
-import { useRef, useEffect, useState } from 'react';
 import Image from "next/image";
-import { useRouter } from 'next/navigation';
-import { gsap } from 'gsap';
 
 const ExperiencePage = () => {
   // Commented out for demo - using simple image instead
