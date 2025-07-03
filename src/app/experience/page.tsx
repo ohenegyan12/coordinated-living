@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { gsap } from 'gsap';
 
 const ExperiencePage = () => {
+  // Commented out for demo - using simple image instead
+  /*
   const pcRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -128,7 +130,22 @@ const ExperiencePage = () => {
       gsap.fromTo(phoneModalRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.inOut' });
     }
   }, [isPhoneViewOpen]);
+  */
 
+  return (
+    <div className="fixed inset-0 w-screen h-screen bg-black">
+      <Image
+        src="/mok.png"
+        layout="fill"
+        objectFit="cover"
+        alt="Experience Background"
+        priority
+      />
+    </div>
+  );
+
+  // Commented out original complex UI for demo
+  /*
   return (
     <div 
       ref={containerRef}
@@ -141,7 +158,6 @@ const ExperiencePage = () => {
         objectFit="cover"
         alt="Experience Background"
       />
-      {/* Notice Board on the wall */}
       <div 
         ref={noticeBoardRef}
         className="absolute top-8 left-1/2 transform -translate-x-1/2 z-10 cursor-pointer notice-board-container"
@@ -155,7 +171,6 @@ const ExperiencePage = () => {
           className="drop-shadow-lg"
         />
       </div>
-      {/* Windows PC positioned on the table */}
       <div 
         ref={pcRef}
         className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-10 cursor-pointer pc-container"
@@ -184,7 +199,6 @@ const ExperiencePage = () => {
         </div>
       </div>
 
-      {/* Phone on the table */}
       <div
         ref={phoneRef}
         className="absolute bottom-16 left-1/2 transform translate-x-[273px] z-10 cursor-pointer phone-container"
@@ -202,7 +216,6 @@ const ExperiencePage = () => {
         />
       </div>
 
-      {/* Envelope on the table */}
       <div
         ref={envelopeRef}
         className="absolute bottom-16 left-[300px] z-10 cursor-pointer envelope-container"
@@ -245,7 +258,6 @@ const ExperiencePage = () => {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-lg opacity-0"
         >
           <div className="w-full max-w-7xl mx-auto flex items-center justify-between px-20">
-            {/* Left Content */}
             <div className="text-white max-w-lg">
               <button 
                 onClick={() => setIsPhoneViewOpen(false)}
@@ -269,7 +281,6 @@ const ExperiencePage = () => {
               </button>
             </div>
 
-            {/* Right Content - Phone */}
             <div>
               <Image 
                 src="/phone-in-view.svg"
@@ -334,7 +345,6 @@ const ExperiencePage = () => {
         }
 
         .envelope-container {
-          /* Removed bounce animation */
         }
         .envelope-glow {
           filter: drop-shadow(0 0 24px rgba(60,180,255,0.5)) drop-shadow(0 2px 8px rgba(0,0,0,0.15));
@@ -371,6 +381,7 @@ const ExperiencePage = () => {
       `}</style>
     </div>
   );
+  */
 };
 
 export default ExperiencePage;

@@ -91,29 +91,31 @@ const WelcomeScreen = ({ onEnterClick }: { onEnterClick: () => void }) => {
   );
 };
 
-const VideoAnimation = ({ videoRef, onVideoEnd }: { videoRef: React.RefObject<HTMLVideoElement | null>, onVideoEnd: () => void }) => {
-  return (
-    <div className="video-animation-container fixed inset-0 z-5 w-screen h-screen opacity-0 pointer-events-none bg-black">
-      <video
-        ref={videoRef}
-        className="w-full h-full object-cover"
-        preload="auto"
-        muted
-        playsInline
-        onEnded={onVideoEnd}
-      >
-        <source src="/door.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-    </div>
-  );
-};
+// Commented out video animation for demo
+// const VideoAnimation = ({ videoRef, onVideoEnd }: { videoRef: React.RefObject<HTMLVideoElement | null>, onVideoEnd: () => void }) => {
+//   return (
+//     <div className="video-animation-container fixed inset-0 z-5 w-screen h-screen opacity-0 pointer-events-none bg-black">
+//       <video
+//         ref={videoRef}
+//         className="w-full h-full object-cover"
+//         preload="auto"
+//         muted
+//         playsInline
+//         onEnded={onVideoEnd}
+//       >
+//         <source src="/door.mp4" type="video/mp4" />
+//         Your browser does not support the video tag.
+//       </video>
+//     </div>
+//   );
+// };
 
 const Page = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isVideoEnded, setIsVideoEnded] = useState(false);
+  // Commented out video state for demo
+  // const [isVideoEnded, setIsVideoEnded] = useState(false);
   const pageRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  // const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -153,56 +155,64 @@ const Page = () => {
       duration: 2,
       ease: 'power2.inOut'
     }, "-=0.5")
-    .to('.video-animation-container', {
-      opacity: 1,
-      duration: 1,
-      ease: 'power2.inOut',
-    }, "-=1.0")
-    .to('.video-animation-container', {
-      pointerEvents: 'auto',
-      duration: 0
-    }, "<")
-    // Play video after the container is visible and after a delay
+    // Commented out video transition for demo
+    // .to('.video-animation-container', {
+    //   opacity: 1,
+    //   duration: 1,
+    //   ease: 'power2.inOut',
+    // }, "-=1.0")
+    // .to('.video-animation-container', {
+    //   pointerEvents: 'auto',
+    //   duration: 0
+    // }, "<")
+    // // Play video after the container is visible and after a delay
+    // .add(() => {
+    //   const videoElement = videoRef.current;
+    //   if (videoElement) {
+    //     setTimeout(() => {
+    //       const playPromise = videoElement.play();
+    //       if (playPromise !== undefined) {
+    //             playPromise.catch(error => {
+    //               console.error("Video playback failed:", error);
+    //             });
+    //           }
+    //         }, 2000);
+    //       }
+    //     });
+    // Go straight to experience page
     .add(() => {
-      const videoElement = videoRef.current;
-      if (videoElement) {
         setTimeout(() => {
-          const playPromise = videoElement.play();
-          if (playPromise !== undefined) {
-            playPromise.catch(error => {
-              console.error("Video playback failed:", error);
-            });
-          }
-        }, 2000);
-      }
+        window.location.href = '/experience';
+      }, 500);
     });
   };
 
-  const handleVideoEnd = () => {
-    setIsVideoEnded(true);
-  };
+  // Commented out video handling for demo
+  // const handleVideoEnd = () => {
+  //   setIsVideoEnded(true);
+  // };
 
-  useEffect(() => {
-    if (isVideoEnded) {
-      gsap.timeline()
-        .to('.video-animation-container', {
-          opacity: 0,
-          duration: 1.5,
-          ease: 'power2.inOut'
-        })
-        .to('body', {
-          backgroundColor: '#000',
-          duration: 0.3,
-          ease: 'power2.inOut'
-        }, "-=0.3")
-        .add(() => {
-          // Smooth transition to experience page
-          setTimeout(() => {
-            window.location.href = '/experience';
-          }, 200);
-        }, "-=0.2");
-    }
-  }, [isVideoEnded]);
+  // useEffect(() => {
+  //   if (isVideoEnded) {
+  //     gsap.timeline()
+  //       .to('.video-animation-container', {
+  //         opacity: 0,
+  //         duration: 1.5,
+  //         ease: 'power2.inOut'
+  //       })
+  //       .to('body', {
+  //         backgroundColor: '#000',
+  //         duration: 0.3,
+  //         ease: 'power2.inOut'
+  //       }, "-=0.3")
+  //       .add(() => {
+  //         // Smooth transition to experience page
+  //         setTimeout(() => {
+  //           window.location.href = '/experience';
+  //         }, 200);
+  //       }, "-=0.2");
+  //   }
+  // }, [isVideoEnded]);
 
   useLayoutEffect(() => {
     if (isLoaded && pageRef.current) {
@@ -225,7 +235,8 @@ const Page = () => {
     <div ref={pageRef}>
       <Loader />
       <WelcomeScreen onEnterClick={handleEnterClick} />
-      <VideoAnimation videoRef={videoRef} onVideoEnd={handleVideoEnd} />
+      {/* Commented out video animation for demo */}
+      {/* <VideoAnimation videoRef={videoRef} onVideoEnd={handleVideoEnd} /> */}
     </div>
   );
 };
