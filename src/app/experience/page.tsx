@@ -153,7 +153,7 @@ const ExperiencePage = () => {
       className="fixed inset-0 w-screen h-screen bg-black opacity-0"
     >
       <Image
-        src="/new.png"
+        src="/coordinated.webp"
         fill
         sizes="100vw"
         alt="Experience Background"
