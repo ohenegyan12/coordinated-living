@@ -232,7 +232,8 @@ const Page = () => {
             placeholder="blur"
             blurDataURL="data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAADsAD+JaQAA3AAAAAA"
             style={{ 
-              objectFit: 'cover'
+              objectFit: 'cover',
+              objectPosition: 'center top'
             }}
           />
         </div>
