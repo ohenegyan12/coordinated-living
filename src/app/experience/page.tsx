@@ -150,7 +150,7 @@ const ExperiencePage = () => {
   return (
     <div 
       ref={containerRef}
-      className="fixed inset-0 w-screen h-screen bg-black opacity-0"
+      className="fixed inset-0 w-screen h-screen bg-black opacity-0 relative"
     >
       <Image
         src="/coordinated.webp"
@@ -160,9 +160,23 @@ const ExperiencePage = () => {
         priority
         quality={85}
         placeholder="blur"
-        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXXGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+        blurDataURL="data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAADsAD+JaQAA3AAAAAA"
         style={{ 
           objectFit: 'cover'
+        }}
+      />
+      {/* Laptop cutout overlay - adjust left, top, width, height as needed */}
+      <Image
+        src="/laptop.png"
+        alt="Laptop Cutout"
+        width={520}
+        height={325}
+        className="absolute"
+        style={{
+          left: '51%',
+          top: '68%',
+          transform: 'translate(-50%, -50%)',
+          pointerEvents: 'auto',
         }}
       />
     </div>

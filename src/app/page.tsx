@@ -113,11 +113,12 @@ const WelcomeScreen = ({ onEnterClick }: { onEnterClick: () => void }) => {
 
 const Page = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  // Commented out video state for demo
-  // const [isVideoEnded, setIsVideoEnded] = useState(false);
+  const [showExperience, setShowExperience] = useState(false);
+  const [experienceVisible, setExperienceVisible] = useState(false);
   const pageRef = useRef<HTMLDivElement>(null);
+  const curtainRef = useRef<HTMLDivElement>(null);
+  const experienceRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  // const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -130,6 +131,7 @@ const Page = () => {
     if (!pageRef.current) return;
     const tl = gsap.timeline();
 
+    // First, animate the button and text as before
     tl.to('.welcome-button', {
       scale: 1.1,
       duration: 0.2,
@@ -152,40 +154,18 @@ const Page = () => {
       duration: 0.6,
       ease: 'power3.inOut'
     }, "<")
-    .to('.gradient-background', {
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power2.inOut'
-    }, "-=0.3")
-    // Commented out video transition for demo
-    // .to('.video-animation-container', {
-    //   opacity: 1,
-    //   duration: 1,
-    //   ease: 'power2.inOut',
-    // }, "-=1.0")
-    // .to('.video-animation-container', {
-    //   pointerEvents: 'auto',
-    //   duration: 0
-    // }, "<")
-    // // Play video after the container is visible and after a delay
-    // .add(() => {
-    //   const videoElement = videoRef.current;
-    //   if (videoElement) {
-    //     setTimeout(() => {
-    //       const playPromise = videoElement.play();
-    //       if (playPromise !== undefined) {
-    //             playPromise.catch(error => {
-    //               console.error("Video playback failed:", error);
-    //             });
-    //           }
-    //         }, 2000);
-    //       }
-    //     });
-    // Go straight to experience page
+    // Make experience page visible just before curtain slides up
     .add(() => {
-        setTimeout(() => {
-        router.push('/experience');
-      }, 200);
+      setExperienceVisible(true);
+    })
+    // Now slide the entire curtain (main page) up to reveal experience
+    .to(curtainRef.current, {
+      y: '-100%',
+      duration: 1.2,
+      ease: 'power3.inOut'
+    }, "-=0.2")
+    .add(() => {
+      setShowExperience(true);
     });
   };
 
@@ -234,11 +214,39 @@ const Page = () => {
   }, [isLoaded]);
 
   return (
-    <div ref={pageRef}>
-      <Loader />
-      <WelcomeScreen onEnterClick={handleEnterClick} />
-      {/* Commented out video animation for demo */}
-      {/* <VideoAnimation videoRef={videoRef} onVideoEnd={handleVideoEnd} /> */}
+    <div ref={pageRef} className="relative w-screen h-screen overflow-hidden">
+      {/* Experience page hidden behind */}
+      {experienceVisible && (
+        <div 
+          ref={experienceRef}
+          className="fixed inset-0 w-screen h-screen bg-black"
+          style={{ zIndex: 1 }}
+        >
+          <Image
+            src="/coordinated.webp"
+            fill
+            sizes="100vw"
+            alt="Experience Background"
+            priority
+            quality={85}
+            placeholder="blur"
+            blurDataURL="data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAADsAD+JaQAA3AAAAAA"
+            style={{ 
+              objectFit: 'cover'
+            }}
+          />
+        </div>
+      )}
+
+      {/* Curtain (main page) that slides up */}
+      <div 
+        ref={curtainRef}
+        className="fixed inset-0 w-screen h-screen"
+        style={{ zIndex: 10 }}
+      >
+        <Loader />
+        <WelcomeScreen onEnterClick={handleEnterClick} />
+      </div>
     </div>
   );
 };
