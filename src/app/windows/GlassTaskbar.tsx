@@ -24,7 +24,8 @@ const GlassTaskbar = ({ onAskQuestionClick, onResourcesClick }: GlassTaskbarProp
   }, []);
 
   const handleGoHome = () => {
-    router.push('/experience');
+    // Reset to lockscreen by refreshing the page
+    window.location.href = '/windows';
   };
 
   return (

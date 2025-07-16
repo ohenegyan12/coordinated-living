@@ -129,7 +129,7 @@ const WindowsHomeScreen = () => {
             {/* Coordinated Living Icon */}
             <div 
                 className="flex flex-col items-center space-y-2 w-24 text-center cursor-pointer p-2 rounded-md"
-                onClick={() => router.push('/experience')}
+                onClick={() => window.location.href = '/windows'}
             >
                 <Image
                     src="/windows/coord-logo.svg"

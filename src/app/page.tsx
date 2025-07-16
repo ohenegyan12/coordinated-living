@@ -115,9 +115,11 @@ const Page = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showExperience, setShowExperience] = useState(false);
   const [experienceVisible, setExperienceVisible] = useState(false);
+  const [laptopZoomed, setLaptopZoomed] = useState(false);
   const pageRef = useRef<HTMLDivElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
   const experienceRef = useRef<HTMLDivElement>(null);
+  const laptopRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -126,6 +128,36 @@ const Page = () => {
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
+
+  // Add escape key handler for zoom out
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      console.log('Key pressed:', e.key, 'laptopZoomed:', laptopZoomed);
+      if (e.key === 'Escape' && laptopZoomed) {
+        console.log('ESC key detected, zooming out...');
+        e.preventDefault();
+        e.stopPropagation();
+        gsap.to(experienceRef.current, {
+          scale: 1,
+          x: '0%',
+          y: '0%',
+          duration: 1.5,
+          ease: 'power2.inOut',
+          zIndex: 1,
+        });
+        setLaptopZoomed(false);
+      }
+    };
+
+    // Add listeners to both window and document for better coverage
+    window.addEventListener('keydown', handleKeyDown, true);
+    document.addEventListener('keydown', handleKeyDown, true);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown, true);
+      document.removeEventListener('keydown', handleKeyDown, true);
+    };
+  }, [laptopZoomed]);
 
   const handleEnterClick = () => {
     if (!pageRef.current) return;
@@ -236,6 +268,101 @@ const Page = () => {
               objectPosition: 'center top'
             }}
           />
+          {/* Laptop iframe overlay */}
+          <div
+            ref={laptopRef}
+            className="absolute cursor-pointer"
+            style={{
+              left: '50.5%',
+              top: '70%',
+              width: '24%',
+              height: '24%',
+              transform: 'translate(-50%, -50%)',
+              clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
+              zIndex: 2,
+            }}
+            onClick={(e) => {
+              // Don't zoom if clicking on the iframe content
+              if (e.target !== e.currentTarget) {
+                return;
+              }
+              
+              if (!laptopZoomed) {
+                // Camera zoom in - scale and move the entire experience view toward laptop
+                gsap.to(experienceRef.current, {
+                  scale: 3,
+                  x: '0%',
+                  y: '-45%',
+                  duration: 1.5,
+                  ease: 'power2.inOut',
+                  zIndex: 20,
+                  onComplete: () => {
+                    setLaptopZoomed(true);
+                  }
+                });
+              } else {
+                // Camera zoom out - return to original view
+                gsap.to(experienceRef.current, {
+                  scale: 1,
+                  x: '0%',
+                  y: '0%',
+                  duration: 1.5,
+                  ease: 'power2.inOut',
+                  zIndex: 1,
+                });
+                setLaptopZoomed(false);
+              }
+            }}
+          >
+            <iframe 
+              src="/windows"
+              style={{
+                width: '300%',
+                height: '300%',
+                border: 'none',
+                borderRadius: '0',
+                backgroundColor: 'transparent',
+                transform: 'scale(0.3)',
+                transformOrigin: 'center center',
+                position: 'absolute',
+                top: '-100%',
+                left: '-100%',
+                pointerEvents: laptopZoomed ? 'auto' : 'none',
+              }}
+              onLoad={() => {
+                // Ensure iframe doesn't capture keyboard events when zoomed
+                if (laptopZoomed) {
+                  const iframe = document.querySelector('iframe');
+                  if (iframe && iframe.contentWindow) {
+                    try {
+                      iframe.contentWindow.focus();
+                    } catch (e) {
+                      console.log('Could not focus iframe:', e);
+                    }
+                  }
+                }
+              }}
+            />
+          </div>
+          
+          {/* ESC key indicator when zoomed */}
+          {laptopZoomed && (
+            <div 
+              className="absolute z-30 text-white px-1.5 py-0.5 text-xs font-bold"
+              style={{ 
+                pointerEvents: 'none',
+                left: '40%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                borderRadius: '34px',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(4px)'
+              }}
+            >
+              Press ESC to zoom out
+            </div>
+          )}
         </div>
       )}
 
