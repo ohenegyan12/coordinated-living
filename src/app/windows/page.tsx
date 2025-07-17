@@ -7,7 +7,7 @@ import GlassTaskbar from './GlassTaskbar';
 import AskAQuestion from './AskAQuestion';
 import GoogleKeep from './GoogleKeep';
 import AboutMeWindow from './AboutMeWindow';
-import { useRouter } from 'next/navigation';
+
 
 const WindowsLockScreen = ({ onUnlock }: { onUnlock: () => void }) => {
   const [time, setTime] = useState(new Date());
@@ -67,7 +67,6 @@ const WindowsHomeScreen = () => {
   const [isKeepOpen, setIsKeepOpen] = useState(false);
   const [isAboutMeSelected, setIsAboutMeSelected] = useState(false);
   const [isAboutMeOpen, setIsAboutMeOpen] = useState(false);
-  const router = useRouter();
 
   const openQuestionWindow = () => setIsQuestionWindowOpen(true);
   const closeQuestionWindow = () => setIsQuestionWindowOpen(false);

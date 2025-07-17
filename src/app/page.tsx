@@ -113,7 +113,6 @@ const WelcomeScreen = ({ onEnterClick }: { onEnterClick: () => void }) => {
 
 const Page = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [showExperience, setShowExperience] = useState(false);
   const [experienceVisible, setExperienceVisible] = useState(false);
   const [laptopZoomed, setLaptopZoomed] = useState(false);
   const [showLesleyLetter, setShowLesleyLetter] = useState(false);
@@ -122,7 +121,6 @@ const Page = () => {
   const curtainRef = useRef<HTMLDivElement>(null);
   const experienceRef = useRef<HTMLDivElement>(null);
   const laptopRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -206,7 +204,7 @@ const Page = () => {
         ease: 'power3.inOut'
       }, "-=0.2")
       .add(() => {
-        setShowExperience(true);
+        // Experience is now visible
       });
   };
 
@@ -378,7 +376,7 @@ const Page = () => {
               position: 'relative',
               boxShadow: '0 8px 20px rgba(0, 0, 0, 0.2)',
             }}
-            onClick={(e) => {
+            onClick={() => {
               console.log('Letter clicked!');
               setShowLesleyLetter(true);
             }}
@@ -619,7 +617,7 @@ const Page = () => {
                   
                   {/* Description */}
                   <p className="text-xl text-white mb-12 leading-relaxed opacity-90">
-                    Explore profound biblical insights and exclusive teachings that will deepen your understanding of God's Word. Join us for in-depth discussions, spiritual guidance, and transformative lessons that will enrich your faith journey and strengthen your relationship with Christ.
+                    Explore profound biblical insights and exclusive teachings that will deepen your understanding of God&apos;s Word. Join us for in-depth discussions, spiritual guidance, and transformative lessons that will enrich your faith journey and strengthen your relationship with Christ.
                   </p>
                   
                   {/* Join Channel Button */}

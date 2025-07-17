@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { format } from 'date-fns';
-import { useRouter } from 'next/navigation';
+
 
 interface GlassTaskbarProps {
   onAskQuestionClick: () => void;
@@ -12,7 +12,6 @@ interface GlassTaskbarProps {
 const GlassTaskbar = ({ onAskQuestionClick, onResourcesClick }: GlassTaskbarProps) => {
   const [time, setTime] = useState('');
   const taskbarRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
 
   useEffect(() => {
     const updateClock = () => {
