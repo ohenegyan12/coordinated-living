@@ -117,6 +117,7 @@ const Page = () => {
   const [laptopZoomed, setLaptopZoomed] = useState(false);
   const [showLesleyLetter, setShowLesleyLetter] = useState(false);
   const [showVideos, setShowVideos] = useState(false);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const pageRef = useRef<HTMLDivElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
   const experienceRef = useRef<HTMLDivElement>(null);
@@ -193,8 +194,9 @@ const Page = () => {
         duration: 0.6,
         ease: 'power3.inOut'
       }, "<")
-      // Make experience page visible just before curtain slides up
+      // Show welcome modal and experience page immediately when curtain starts sliding
       .add(() => {
+        setShowWelcomeModal(true);
         setExperienceVisible(true);
       })
       // Now slide the entire curtain (main page) up to reveal experience
@@ -202,10 +204,7 @@ const Page = () => {
         y: '-100%',
         duration: 1.2,
         ease: 'power3.inOut'
-      }, "-=0.2")
-      .add(() => {
-        // Experience is now visible
-      });
+      }, "-=0.2");
   };
 
   // Commented out video handling for demo
@@ -253,7 +252,7 @@ const Page = () => {
   }, [isLoaded]);
 
   return (
-    <div ref={pageRef} className="relative w-screen h-screen overflow-hidden">
+    <div ref={pageRef} className="relative w-screen h-screen overflow-y-auto">
       {/* Experience page hidden behind */}
       {experienceVisible && (
         <div
@@ -280,10 +279,10 @@ const Page = () => {
             ref={laptopRef}
             className="absolute cursor-pointer"
             style={{
-              left: '50.5%',
-              top: '70%',
-              width: '24%',
-              height: '24%',
+              left: '50.5vw',
+              top: '70vh',
+              width: '24vw',
+              height: '24vh',
               transform: 'translate(-50%, -50%)',
               clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
               zIndex: 2,
@@ -362,29 +361,17 @@ const Page = () => {
 
           {/* Letter clip-path overlay */}
           <div
-            className="absolute cursor-pointer letter-glow"
-            style={{
-              left: '75%',
-              top: '92%',
-              transform: 'translate(-50%, -50%) rotate(-95deg) skewY(-57deg) ',
-              zIndex: 2,
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
-              width: ' 129px',
-              height: '310px',
-              background: 'transparent',
-              clipPath: 'polygon(12% 30%, 85% 22%, 95% 82%, 22% 90%)',
-              position: 'relative',
-              boxShadow: '0 8px 20px rgba(0, 0, 0, 0.2)',
-            }}
+            className="absolute cursor-pointer letter-glow letter-clip-path"
+            
             onClick={() => {
               console.log('Letter clicked!');
               setShowLesleyLetter(true);
             }}
           />
-          {/* cup- clippath */}
-          <div
+          {/* cup- clippath - temporarily hidden */}
+          {/* <div
             className="absolute group"
-            style={{ right: '280px', bottom: '190px', width: '20px', height: '20px', zIndex: 2 }}
+            style={{ right: '14.6vw', bottom: '17.6vh', width: '1.5vw', height: '1.5vh', zIndex: 2 }}
           >
             <div
               className="cursor-pointer cup-glow heartbeat cup-float cup-hover-glow w-full h-full"
@@ -398,11 +385,11 @@ const Page = () => {
             />
 
 
-          </div>
+          </div> */}
           {/* phone- clippath */}
           <div
             className="absolute group"
-            style={{ left: '250px', bottom: '1px', width: '290px', height:'360px', zIndex: 2 }}
+            style={{ left: '18vw', bottom: '0.1vh', width: '22vw', height:'28vh', zIndex: 2 }}
           >
             <div
               className="cursor-pointer phone-glow w-full h-full"
@@ -643,6 +630,93 @@ const Page = () => {
                     className="object-contain"
                     style={{ transform: 'translateY(20%)' }}
                   />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Welcome Modal */}
+          {showWelcomeModal && (
+            <div className="fixed inset-0 z-50">
+              {/* Glass background blur */}
+              <div 
+                className="absolute inset-0"
+                style={{ 
+                  backgroundColor: 'rgba(0, 0, 0, 0.15)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)'
+                }}
+              />
+              
+              {/* Welcome Card */}
+              <div className="absolute inset-0 flex items-center justify-center p-8">
+                <div 
+                  className="relative z-10 max-w-md w-full p-8 text-center welcome-modal-card"
+                  style={{
+                    backgroundColor: '#0F0F0F',
+                    borderRadius: '26.22px',
+                    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)'
+                  }}
+                >
+                  {/* Coordinated Living Logo */}
+                  <div className="mb-6 flex justify-center">
+                    <Image
+                      src="/modal-logo.svg"
+                      alt="Coordinated Living Logo"
+                      width={120}
+                      height={120}
+                      className="w-[120px] h-[120px]"
+                    />
+                  </div>
+
+                  {/* Welcome Banner */}
+                  <div
+                    className="px-4 py-2 mb-6"
+                    style={{
+                      backgroundColor: '#1D1C1E',
+                      color: 'white',
+                      borderRadius: '33.86px',
+                    }}
+                  >
+                    <h2 className="text-white font-medium text-sm">
+                      Welcome to Your Interactive Workspace
+                    </h2>
+                  </div>
+
+                  {/* Instructional Text */}
+                  <div className="mb-6 text-center">
+                    <p className="text-white font-bold text-lg mb-2">
+                      Things aren&apos;t always what they seem.
+                    </p>
+                    <p className="text-gray-300 text-base">
+                      Explore the workspace — you might be surprised by what you find.
+                    </p>
+                  </div>
+
+                  {/* Get Started Button */}
+                  <button
+                    onClick={() => {
+                      // Smoothly fade out the welcome modal
+                      const modal = document.querySelector('.welcome-modal-card');
+                      if (modal) {
+                        gsap.to(modal, {
+                          opacity: 0,
+                          scale: 0.95,
+                          duration: 0.6,
+                          ease: 'power2.inOut',
+                          onComplete: () => {
+                            setShowWelcomeModal(false);
+                          }
+                        });
+                      } else {
+                        setShowWelcomeModal(false);
+                      }
+                    }}
+                    className="w-full text-white font-medium py-3 px-6 transition-colors duration-200 cursor-pointer get-started-glow"
+                    style={{ backgroundColor: '#5C3262', borderRadius: '35px' }}
+                  >
+                    Get Started
+                  </button>
                 </div>
               </div>
             </div>
