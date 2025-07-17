@@ -33,7 +33,7 @@ const GoogleKeep = ({ onClose }: GoogleKeepProps) => {
 
   return (
     <div ref={windowRef} className="absolute inset-x-0 top-0 bottom-16 bg-black/30 flex items-center justify-center z-50 opacity-0">
-      <div className="w-[80vw] h-[90vh] max-w-[1400px] bg-white rounded-lg flex flex-col">
+      <div className="w-[85vw] h-[85vh] max-w-[1600px] bg-white rounded-lg flex flex-col">
         {/* Browser Chrome */}
         <div className="bg-white rounded-t-lg">
             <div className="flex items-center justify-between pl-2 pt-1">
