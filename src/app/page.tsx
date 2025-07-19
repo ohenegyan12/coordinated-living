@@ -118,17 +118,48 @@ const Page = () => {
   const [showLesleyLetter, setShowLesleyLetter] = useState(false);
   const [showVideos, setShowVideos] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [fromWindows, setFromWindows] = useState(false);
   const pageRef = useRef<HTMLDivElement>(null);
   const curtainRef = useRef<HTMLDivElement>(null);
   const experienceRef = useRef<HTMLDivElement>(null);
   const laptopRef = useRef<HTMLDivElement>(null);
 
+  // Check if coming back from Windows page
   useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const fromWindowsParam = urlParams.get('fromWindows');
+    
+    if (fromWindowsParam === 'true') {
+      setFromWindows(true);
+      // Show loader briefly, then go directly to experience
+      const timer = setTimeout(() => {
+        setIsLoaded(true);
+        setExperienceVisible(true);
+        // Smoothly slide the curtain up to reveal experience
+        if (curtainRef.current) {
+          gsap.to(curtainRef.current, {
+            y: '-100%',
+            duration: 1.2,
+            ease: 'power3.inOut'
+          });
+        }
+      }, 1500); // Show loader for 1.5 seconds
+      
+      return () => clearTimeout(timer);
+      // Clean up the URL parameter
+      window.history.replaceState({}, '', '/');
+    }
+  }, []);
+
+  useEffect(() => {
+    // Don't start the loader timer if coming from Windows
+    if (fromWindows) return;
+    
     const timer = setTimeout(() => {
       setIsLoaded(true);
     }, 2000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [fromWindows]);
 
   // Add escape key handler for zoom out
   useEffect(() => {
@@ -260,28 +291,50 @@ const Page = () => {
           className="fixed inset-0 w-screen h-screen bg-black"
           style={{ zIndex: 1 }}
         >
-          <Image
+          <img
             src="/coordinated.webp"
-            fill
-            sizes="100vw"
             alt="Experience Background"
-            priority
-            quality={85}
-            placeholder="blur"
-            blurDataURL="data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAADsAD+JaQAA3AAAAAA"
+           
+            width="100%"
+            height="auto"
+           
+           
+   
             style={{
               objectFit: 'cover',
-              objectPosition: 'center top'
+              objectPosition: 'center top',
+ 
             }}
           />
+          <div style={{
+           position: 'absolute',
+           top: 0,
+           bottom: 0,
+           left: 0,
+           right: 0,
+           marginLeft: 0,
+           paddingLeft: 0,
+           zIndex: 1,
+          }} >
+           <div style={{
+            position: 'absolute',
+            top: '65%',
+            right: 0,
+            height: '15%',
+            width: '30%',
+            zIndex: 3,
+
+
+           }}></div>
+          </div>
           {/* Laptop iframe overlay */}
           <div
             ref={laptopRef}
-            className="absolute cursor-pointer"
+            className="absolute cursor-pointer laptop-iframe"
             style={{
-              left: '50.5vw',
-              top: '70vh',
-              width: '24vw',
+              left: '47.2vw',
+              top: '67vh',
+              width: '26vw',
               height: '24vh',
               transform: 'translate(-50%, -50%)',
               clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
@@ -304,6 +357,8 @@ const Page = () => {
                   zIndex: 20,
                   onComplete: () => {
                     setLaptopZoomed(true);
+                    // Navigate immediately when zoom completes
+                    window.location.href = '/windows';
                   }
                 });
               } else {
@@ -362,7 +417,6 @@ const Page = () => {
           {/* Letter clip-path overlay */}
           <div
             className="absolute cursor-pointer letter-glow letter-clip-path"
-            
             onClick={() => {
               console.log('Letter clicked!');
               setShowLesleyLetter(true);
@@ -383,16 +437,20 @@ const Page = () => {
               }}
               onClick={() => console.log('Cup clicked!')}
             />
-
-
           </div> */}
           {/* phone- clippath */}
           <div
-            className="absolute group"
-            style={{ left: '18vw', bottom: '0.1vh', width: '22vw', height:'28vh', zIndex: 2 }}
+            className="absolute phone-glow phone-yellow-glow"
+            style={{ 
+              left: '13vw', 
+              bottom: '8vh', 
+              width: '22vw', 
+              height: '28vh', 
+              zIndex: 2,
+            }}
           >
             <div
-              className="cursor-pointer phone-glow w-full h-full"
+              className="cursor-pointer w-full h-full"
               style={{
                 clipPath: 'polygon(18% 65%, 43% 60%, 70% 84%, 39% 90%)',
                 borderRadius: '50% 50% 0 0',
@@ -402,28 +460,219 @@ const Page = () => {
                 setShowVideos(true);
               }}
             />
+          </div>
 
-            {/* Tooltip */}
-            {/* <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm text-white bg-black bg-opacity-70 px-2 py-1 rounded">
-             Buy me a coffee ☕
-            </div> */}
+          {/* Noticeboard Profile Image clip path */}
+          <div
+            className="absolute"
+            style={{ 
+              left: '67vw', 
+              top: '14vh', 
+              width: '8vw', 
+              height: '8vw', 
+              zIndex: 2,
+            }}
+          >
+            <div className="relative w-full h-full">
+              <Image
+                src="/lesley-img1.jpeg"
+                alt="Lesley Profile"
+                width={200}
+                height={200}
+                className="w-full h-full object-cover"
+              />
+              <div 
+                className="absolute inset-0 bg-black opacity-40"
+              />
+            </div>
+          </div>
+
+          {/* Noticeboard Long Paper Document clip path */}
+          <div
+            className="absolute"
+            style={{ 
+              left: '54.5vw', 
+              top: '11.3vh', 
+              width: '8.5vw', 
+              height: '19vh', 
+              zIndex: 2,
+              backgroundColor: 'white',
+            }}
+          >
+            <div 
+              className="absolute inset-0 bg-black opacity-50"
+            />
+            <div
+              className="cursor-pointer w-full h-full"
+              style={{
+                clipPath: 'polygon(5% 5%, 95% 5%, 95% 95%, 5% 95%)',
+              }}
+              onClick={() => {
+                console.log('Long paper document clicked!');
+                // TODO: Add document content display logic
+              }}
+            />
+            {/* Red pin at top middle */}
+            <div
+              className="absolute"
+              style={{
+                top: '-8px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 3,
+              }}
+            >
+              <Image
+                src="/red-pin.svg"
+                alt="Red Pin"
+                width={16}
+                height={16}
+                className="w-4 h-4"
+              />
+            </div>
+            
+            {/* To-Do List Content */}
+            <div
+              className="absolute inset-0 p-2 text-black font-mono text-xs leading-tight"
+              style={{ zIndex: 4, opacity: 0.4 }}
+            >
+              <div className="font-bold text-center mb-2" style={{ fontSize: '10px' }}>
+                TO DO LIST
+              </div>
+              <div className="space-y-1">
+                <div className="flex items-start">
+                  <div className="w-2 h-2 border border-black mr-1 mt-0.5 flex-shrink-0 flex items-center justify-center">
+                    <span style={{ fontSize: '6px', lineHeight: '1' }}>✓</span>
+                  </div>
+                  <span style={{ fontSize: '8px' }}>Chapter study</span>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-2 h-2 border border-black mr-1 mt-0.5 flex-shrink-0"></div>
+                  <span style={{ fontSize: '8px' }}>Meditation</span>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-2 h-2 border border-black mr-1 mt-0.5 flex-shrink-0 flex items-center justify-center">
+                    <span style={{ fontSize: '6px', lineHeight: '1' }}>✓</span>
+                  </div>
+                  <span style={{ fontSize: '8px' }}>Water plants</span>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-2 h-2 border border-black mr-1 mt-0.5 flex-shrink-0"></div>
+                  <span style={{ fontSize: '8px' }}>Draw up a guide</span>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-2 h-2 border border-black mr-1 mt-0.5 flex-shrink-0 flex items-center justify-center">
+                    <span style={{ fontSize: '6px', lineHeight: '1' }}>✓</span>
+                  </div>
+                  <span style={{ fontSize: '8px' }}>One on one call</span>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-2 h-2 border border-black mr-1 mt-0.5 flex-shrink-0"></div>
+                  <span style={{ fontSize: '8px' }}>Post edits</span>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-2 h-2 border border-black mr-1 mt-0.5 flex-shrink-0"></div>
+                  <span style={{ fontSize: '8px' }}>Check and respond to emails</span>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-2 h-2 border border-black mr-1 mt-0.5 flex-shrink-0 flex items-center justify-center">
+                    <span style={{ fontSize: '6px', lineHeight: '1' }}>✓</span>
+                  </div>
+                  <span style={{ fontSize: '8px' }}>Update playlist</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Noticeboard Abstract Image clip path */}
+          <div
+            className="absolute"
+            style={{ 
+              left: '45vw', 
+              top: '11.50vh', 
+              width: '8vw', 
+              height: '6vw', 
+              zIndex: 2,
+            }}
+          >
+            <div className="relative w-full h-full">
+              <Image
+                src="/lesley-img2.jpeg"
+                alt="Lesley Image 2"
+                width={200}
+                height={150}
+                className="w-full h-full object-cover"
+              />
+              <div 
+                className="absolute inset-0 bg-black opacity-40"
+              />
+            </div>
+            {/* Purple-black pin at top middle */}
+            <div
+              className="absolute"
+              style={{
+                top: '-8px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 3,
+              }}
+            >
+              <Image
+                src="/purple-black.svg"
+                alt="Purple-Black Pin"
+                width={16}
+                height={16}
+                className="w-4 h-4"
+              />
+            </div>
+          </div>
+
+          {/* Noticeboard Three Lines Image clip path */}
+          <div
+            className="absolute"
+            style={{ 
+              left: '46.5vw', 
+              top: '26.5vh', 
+              width: '6vw', 
+              height: '6vw', 
+              zIndex: 2,
+            }}
+          >
+            <div className="relative w-full h-full">
+              <Image
+                src="/lesley-img3.jpeg"
+                alt="Lesley Image 3"
+                width={150}
+                height={150}
+                className="w-full h-full object-cover"
+              />
+              <div 
+                className="absolute inset-0 bg-black opacity-40"
+              />
+            </div>
+            {/* Purple pin at top middle */}
+            <div
+              className="absolute"
+              style={{
+                top: '-8px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 3,
+              }}
+            >
+              <Image
+                src="/purple-pin.svg"
+                alt="Purple Pin"
+                width={16}
+                height={16}
+                className="w-4 h-4"
+              />
+            </div>
           </div>
 
           <style jsx>{`
               .letter-glow {
-                animation: letterPulse 2s ease-in-out infinite;
-              }
-              
-              @keyframes letterPulse {
-                0% {
-                  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(255, 255, 255, 0.2);
-                }
-                50% {
-                  box-shadow: 0 0 30px rgba(255, 255, 255, 0.5), 0 0 60px rgba(255, 255, 255, 0.3), 0 0 80px rgba(255, 255, 255, 0.1);
-                }
-                100% {
-                  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(255, 255, 255, 0.2);
-                }
+                /* Removed glow effect to make clip path invisible */
               }
               
               .cup-glow {
@@ -510,26 +759,20 @@ const Page = () => {
                   box-shadow: 0 0 40px rgba(255, 255, 255, 0.6), 0 0 80px rgba(255, 255, 255, 0.4), 0 0 120px rgba(255, 255, 255, 0.3), 0 0 160px rgba(255, 255, 255, 0.1);
                 }
               }
+              
+              .profile-glow {
+                animation: profileGlow 3s ease-in-out infinite;
+              }
+              
+              @keyframes profileGlow {
+                0%, 100% {
+                  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3), 0 0 30px rgba(255, 255, 255, 0.2), 0 0 45px rgba(255, 255, 255, 0.1);
+                }
+                50% {
+                  box-shadow: 0 0 25px rgba(255, 255, 255, 0.5), 0 0 50px rgba(255, 255, 255, 0.3), 0 0 75px rgba(255, 255, 255, 0.2);
+                }
+              }
             `}</style>
-
-          {/* ESC key indicator when zoomed */}
-          {laptopZoomed && (
-            <div
-              className="absolute z-30 text-white px-1.5 py-0.5 text-xs font-bold"
-              style={{
-                pointerEvents: 'none',
-                left: '40%',
-                top: '50%',
-                transform: 'translate(-50%, -50%)',
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                borderRadius: '34px',
-                backdropFilter: 'blur(4px)',
-                WebkitBackdropFilter: 'blur(4px)'
-              }}
-            >
-              Press ESC to zoom out
-            </div>
-          )}
 
           {/* Lesley Letter Overlay */}
           {showLesleyLetter && (
@@ -594,9 +837,9 @@ const Page = () => {
                 Return to Desk
               </button>
               
-              {/* Videos content - left side */}
-              <div className="absolute inset-0 flex items-center justify-between p-16">
-                <div className="relative z-10 max-w-2xl">
+              {/* Videos content - centered */}
+              <div className="absolute inset-0 flex items-center justify-center p-16">
+                <div className="relative z-10 max-w-2xl text-center">
                   {/* Title */}
                   <h1 className="text-7xl font-serif text-white mb-8 leading-tight">
                     Deep Dive &<br />Exclusive Teachings
@@ -608,7 +851,7 @@ const Page = () => {
                   </p>
                   
                   {/* Join Channel Button */}
-                  <div className="flex">
+                  <div className="flex justify-center">
                     <Image
                       src="/join-channel-new.svg"
                       alt="Join Channel"
@@ -618,18 +861,6 @@ const Page = () => {
                       onClick={() => console.log('Join Channel clicked!')}
                     />
                   </div>
-                </div>
-                
-                {/* Phone on the right side */}
-                <div className="relative z-10 flex items-end justify-end h-full">
-                  <Image
-                    src="/passs.png"
-                    alt="Phone"
-                    width={6000}
-                    height={12000}
-                    className="object-contain"
-                    style={{ transform: 'translateY(20%)' }}
-                  />
                 </div>
               </div>
             </div>
@@ -731,7 +962,7 @@ const Page = () => {
         style={{ zIndex: 10 }}
       >
         <Loader />
-        <WelcomeScreen onEnterClick={handleEnterClick} />
+        {!fromWindows && <WelcomeScreen onEnterClick={handleEnterClick} />}
       </div>
     </div>
   );

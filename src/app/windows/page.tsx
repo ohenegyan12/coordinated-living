@@ -128,7 +128,25 @@ const WindowsHomeScreen = () => {
             {/* Coordinated Living Icon */}
             <div 
                 className="flex flex-col items-center space-y-2 w-24 text-center cursor-pointer p-2 rounded-md"
-                onClick={() => window.location.href = '/windows'}
+                onClick={() => {
+                    // Create smooth zoom-out transition back to experience page
+                    const container = document.querySelector('.windows-home-screen');
+                    if (container) {
+                        gsap.to(container, {
+                            scale: 0.8,
+                            opacity: 0,
+                            duration: 1.2,
+                            ease: 'power2.inOut',
+                            onComplete: () => {
+                                // Navigate back to the experience page with coordinated.webp
+                                window.location.href = '/?fromWindows=true';
+                            }
+                        });
+                    } else {
+                        // Fallback if container not found
+                        window.location.href = '/?fromWindows=true';
+                    }
+                }}
             >
                 <Image
                     src="/windows/coord-logo.svg"

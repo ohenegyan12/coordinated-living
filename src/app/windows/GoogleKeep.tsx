@@ -75,7 +75,7 @@ const GoogleKeep = ({ onClose }: GoogleKeepProps) => {
                 />
                 <NavItem 
                   icon="/keep/book.svg" 
-                  label="BOOKS" 
+                  label="GUIDES" 
                   isActive={activeTab === 'Books'}
                   onClick={() => setActiveTab('Books')}
                 />

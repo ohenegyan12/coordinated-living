@@ -6,7 +6,7 @@ const BookCard = ({ image, title, description }: { image: string, title: string,
     <div className="w-40 h-56 relative mb-4">
       <Image src={image} layout="fill" objectFit="cover" alt={title} className="rounded-md" />
     </div>
-    <h3 className="font-semibold text-md mb-1">{title}</h3>
+    <h3 className="font-semibold text-md mb-1 text-black">{title}</h3>
     <p className="text-xs text-gray-500 max-w-xs">{description}</p>
   </div>
 );
@@ -24,7 +24,7 @@ const BooksContent = () => {
       {/* Header Section */}
       <div className="flex justify-between items-start mb-12">
         <div className="max-w-xl">
-          <h1 className="text-2xl font-semibold text-gray-800 mb-2">Practical Guides for Your Journey</h1>
+          <h1 className="text-2xl font-semibold text-black mb-2">Practical Guides for Your Journey</h1>
           <p className="text-sm text-gray-500 leading-relaxed">
             Seeking guidance on specific areas or situations in life? Our downloadable resources are helpful guides designed to equip you with practical steps and biblical principles. Explore these resources to experience His abounding grace as you navigate specific scenes of life and grow in faith.
           </p>

@@ -23,8 +23,23 @@ const GlassTaskbar = ({ onAskQuestionClick, onResourcesClick }: GlassTaskbarProp
   }, []);
 
   const handleGoHome = () => {
-    // Reset to lockscreen by refreshing the page
-    window.location.href = '/windows';
+    // Create smooth zoom-out transition back to experience page
+    const container = document.querySelector('.windows-home-screen');
+    if (container) {
+      gsap.to(container, {
+        scale: 0.8,
+        opacity: 0,
+        duration: 1.2,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          // Navigate back to the experience page with coordinated.webp
+          window.location.href = '/?fromWindows=true';
+        }
+      });
+    } else {
+      // Fallback if container not found
+      window.location.href = '/?fromWindows=true';
+    }
   };
 
   return (

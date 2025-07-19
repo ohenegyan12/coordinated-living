@@ -31,17 +31,14 @@ body {
 }
 
 .letter-clip-path {
-  left: 75%;
-  top: 92%;
+  left: 72%;
+  top: 88%;
   transform: translate(-50%, -50%) rotate(-95deg) skewY(-57deg);
   z-index: 2;
-  background-color: rgba(255, 255, 255, 0.1);
   width: 129px;
   height: 310px;
-  background: black;
   clip-path: polygon(12% 30%, 85% 22%, 95% 82%, 22% 90%);
-  position: relative;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  position: absolute;
 }
 
 
@@ -51,8 +48,35 @@ body {
   bottom: 1vh;
   transform: translate(-50%, -50%) rotate(-95deg) skewY(-57deg);
   z-index: 2;
-  background: transparent;
 }}
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {}
+
+.phone-glow {
+  animation: phoneGlow 3s ease-in-out infinite;
+}
+
+@keyframes phoneGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2), 0 0 80px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.6), 0 0 80px rgba(255, 255, 255, 0.4), 0 0 120px rgba(255, 255, 255, 0.3), 0 0 160px rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Yellow pulse glow effect for phone */
+.phone-yellow-glow {
+  animation: phoneYellowGlow 2s ease-in-out infinite !important;
+}
+
+@keyframes phoneYellowGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.6), 0 0 60px rgba(0, 0, 0, 0.4), 0 0 80px rgba(0, 0, 0, 0.2) !important;
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(0, 0, 0, 1), 0 0 70px rgba(0, 0, 0, 0.8), 0 0 105px rgba(0, 0, 0, 0.6), 0 0 140px rgba(0, 0, 0, 0.3) !important;
+  }
+}
+

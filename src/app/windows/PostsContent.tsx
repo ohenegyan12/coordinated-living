@@ -38,8 +38,8 @@ const PostsContent = () => {
   const initialPosts: Post[] = [
     { id: 1, header: 'Finding Your Path', description: 'Counseling can be a guided journey...', x: 0, y: 0 },
     { id: 2, header: 'A Safe Space', description: 'In His grace, we create a safe space...', x: 280, y: 0 },
-    { id: 3, header: 'Healing Words', description: 'Let the word of God and supportive counsel...', x: 560, y: 0 },
-    { id: 4, header: 'Renewed Hope', description: 'Through every challenge, there is an opportunity...', x: 840, y: 0 },
+    { id: 3, header: 'Healing Words', description: 'Let the word of God and supportive counsel...', x: 0, y: 200 },
+    { id: 4, header: 'Renewed Hope', description: 'Through every challenge, there is an opportunity...', x: 280, y: 200 },
   ];
   
   const [posts, setPosts] = useState(initialPosts);
